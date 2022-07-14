@@ -1,0 +1,188 @@
+Mongo DB
+----------------
+commands:
+	show dbs;
+
+
+CreateDB
+-----------------
+use <YOUR DATABASE>;
+
+
+Insert the document
+db. is a pointer that points to the current active database
+=============
+db.employee.insert({
+name: 'Harry Potter',
+salary: 80000,
+city: 'london',
+department: 'IT'
+});
+
+
+db.employee.insertMany([
+{name: 'Ronald Weasley',
+salary: 70000,
+city: 'Manchester',
+department: 'ADMIN'}
+,{name: 'Draco Malfoy',
+salary: 80000,
+city: 'Manchester',
+department: 'IT'}
+,{name: 'Samwise Gamaje',
+salary: 70000,
+city: 'Shire',
+department: 'SALES'}
+,{name: 'Frodo Baggins',
+salary: 90000,
+city: 'Shire',
+department: 'IT'}
+]);
+
+Display the documents
+==========================
+db.employee.find()
+db.employee.find().pretty()
+
+Remove the record/document
+==========================
+db.employee.remove(
+{"_id" : ObjectId("62c43e736374c7b78db0934c")}
+);
+
+Update the record/document
+==========================
+db.employee.update(
+{"_id" : ObjectId("62c440236374c7b78db0934d")},
+{ $set: {salary:75000} }
+);
+
+Fetch the record based on ID
+*Findone() Finds the first if field has multiple inputs.
+*Use find() to find all for a given field
+==========================
+"_id" : ObjectId("62c43e736374c7b78db0934b")
+
+db.employee.findOne(
+{"_id" : ObjectId("62c43e736374c7b78db0934b")});
+
+db.employee.findOne(
+{"department" : "IT"}
+);
+
+db.employee.find(
+{"department" : "IT"}
+).pretty();
+
+
+Operators in Mongo
+==========================
+$eq: equals
+$lt: less than
+$lte: less than or equals
+$gt: Greater than
+$gte: Greater than or equals
+$ne: not equal to
+$in: checks in the arrays of values
+$nin: not in, oppsite of in
+
+
+db.employee.find(
+{"department" : {$eq: "IT"}}
+).pretty();
+
+db.employee.find(
+{"salary" : {$lt: 80000}}
+).pretty();
+
+Questions in MONGO
+==========================
+Q. Display all records that does not belong to 'SALES' department
+db.employee.find(
+{"department" : {$ne: 'SALES'}}
+).pretty();
+
+Q. Display all records that belong in following list
+['london', 'new york', 'Manchester']
+db.employee.find({
+city: {$in: ['london', 'new york', 'Manchester']}
+}).pretty();
+
+
+
+AND &  OR Operations
+==========================
+Display the records of employees having salary greater
+than 80000 and that live in following cities:
+['london', 'new york', 'Manchester']
+
+Command: 	db.employee.find().pretty();
+Condition 1:	{salary: {$gt: 80000}},
+Condition 2:	{city: {$in: ['london', 'new york', 'Manchester']}}
+
+AND Structure:
+db.employee.find(
+{ $and: []}
+).pretty();
+-----------------
+
+db.employee.find(
+	{ $and: [
+		{salary: {$gte: 80000}},
+		{city: {$in: ['london', 'new york', 'Manchester']}}
+	]}
+).pretty();
+
+db.employee.find(
+	{ $or: [
+		{salary: {$gte: 80000}},
+		{city: {$in: ['london', 'new york', 'Manchester']}}
+	]}
+).pretty();
+
+
+EXTRA Operations - Sorting in Mongo
+==========================
+Q. Display the records based on salary in ASC & DESC Order.
+
+db.employee.find().sort().pretty();
+
+Criteria:
+	{salary:1} : ASC
+	{salary:-1}: DESC
+
+db.employee.find().sort({salary:1}).pretty();
+
+
+Sorting with Other Operators
+-----------------------------
+db.employee.find({
+city: {$in: ['london', 'new york', 'Manchester']}
+}).pretty();
+
+
+db.employee.find({
+city: {$in: ['london', 'new york', 'Manchester']}
+}).sort({salary:1}).pretty();
+
+
+Pagination
+==========================
+- limit()
+- skip()
+
+db.employee.find({
+city: {$in: ['london', 'new york', 'Manchester']}
+}).sort({salary:1}).limit(2).skip(0).pretty();
+
+db.employee.find({
+city: {$in: ['london', 'new york', 'Manchester']}
+}).sort({salary:1}).limit(2).skip(2).pretty();
+
+
+EXTRA Operations - upsert(): update & insert: updation{id:____}
+Don't use
+==========================
+
+EXTRA Operations - save(): insert & update:
+==========================
