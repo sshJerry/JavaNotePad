@@ -1,0 +1,17 @@
+/*JAVA PORTION*/
+create table employee(ID int primary key auto_increment, name varchar(50) not null, 
+city varchar(50), salary double default 0);
+ALTER TABLE employee ADD COLUMN departmentName varchar(50) not null;
+insert into employee(name, city, salary, departmentName) values('harry potter', 'london', 85000, 'HR');
+insert into employee(name, city, salary, departmentName) values('Berry', 'manchester', 50000, 'IT');
+insert into employee(name, city, salary, departmentName) values('Brand', 'LA', 50000, 'IT'), ('Von', 'LA', 50000, 'IT');
+select * from employee;
+
+create table product(id int primary key auto_increment,name varchar(50) 
+,price double ,vendor_id int); 
+create table vendor(id int primary key auto_increment, name varchar(50)); 
+insert into product(name,price,vendor_id) values  
+('HP Laptop', 1200, 1), 
+('Dell Laptop', 1100, 2), 
+('Lenovo Laptop', 1000, 2);  
+insert into vendor(name) values ('ABC Elec.'), ('PQR Elec.'); 
